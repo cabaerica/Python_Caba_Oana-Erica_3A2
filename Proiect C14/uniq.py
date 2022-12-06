@@ -84,18 +84,20 @@ elif path.isfile(sys.argv[-1]):
     del args[-1]
 
 fin = open(input, "r")
-if output:
-    fout = open(output, "w")
 list = fin.read().splitlines()
 if not args:
     list = uniq_functions.uniq(list)
+
+count = False
 
 for i in range(0, len(args)):
     if args[i] in short_commands_without_num:
         if i+1 == len(args):
             list = uniq_functions.uniq_with_short_command(args[i], list)
         elif i+1 != len(args) and type(args[i+1]) == str:
-            list = uniq_functions.uniq_with_short_command(args[i], list)
+            if args[i] != "-c" and args[i] != "--count":
+                list = uniq_functions.uniq_with_short_command(args[i], list)
+            else: count = True
 
     elif args[i] in informational_commands:
         if(args[i] == "--help"):
@@ -124,5 +126,12 @@ for i in range(0, len(args)):
             list = uniq_functions.uniq_with_long_command(args[i], list, args[i+1])
             i += 1
     else: raise Exception("Invalid input")
+
+if count:
+    list = uniq_functions.uniq_with_short_command("-c", list)
+
+if output:
+    fout = open(output, "w")
+    fout.write(str(list))
 
 print(list)
