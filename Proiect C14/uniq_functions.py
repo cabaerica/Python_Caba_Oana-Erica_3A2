@@ -115,7 +115,6 @@ def uniq_all_duplicates(input):
     if not output:
         return []
     if input[-1] == input[-2]:
-        print("Hello")
         output.append(input[-1])
     return output
 

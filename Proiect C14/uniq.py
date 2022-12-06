@@ -89,8 +89,9 @@ if not args:
     list = uniq_functions.uniq(list)
 
 count = False
+i = 0
 
-for i in range(0, len(args)):
+while i < len(args):
     if args[i] in short_commands_without_num:
         if i+1 == len(args):
             list = uniq_functions.uniq_with_short_command(args[i], list)
@@ -122,10 +123,12 @@ for i in range(0, len(args)):
     elif args[i] in short_commands_with_num:
         if i+1 == len(args):
             raise Exception("Invalid input")
-        elif i+1 != len(args) and type(args[i+1]) == int:
+        elif i+1 != len(args) and int(args[i+1]):
             list = uniq_functions.uniq_with_long_command(args[i], list, args[i+1])
             i += 1
-    else: raise Exception("Invalid input")
+    else: 
+        raise Exception("Invalid input")
+    i += 1
 
 if count:
     list = uniq_functions.uniq_with_short_command("-c", list)
